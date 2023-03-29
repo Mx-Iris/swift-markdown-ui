@@ -1,5 +1,6 @@
 import Foundation
 @_implementationOnly import cmark_gfm
+@_implementationOnly import cmark_gfm_extensions
 
 class CommonMarkNode {
   private let pointer: UnsafeMutablePointer<cmark_node>

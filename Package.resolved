@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mx-Iris/swift-cmark",
+      "state" : {
+        "branch" : "gfm",
+        "revision" : "7bd1f7127e81bf91331533816a8cf0c165b9088b"
+      }
+    },
+    {
       "identity" : "swift-snapshot-testing",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
