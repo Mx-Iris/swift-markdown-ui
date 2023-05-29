@@ -1,15 +1,16 @@
 import SwiftUI
 
 struct ListItemView: View {
+  @Environment(\.theme.listItem) private var listItem
   @Environment(\.listLevel) private var listLevel
 
-  private let item: ListItem
+  private let item: RawListItem
   private let number: Int
   private let markerStyle: BlockStyle<ListMarkerConfiguration>
   private let markerWidth: CGFloat?
 
   init(
-    item: ListItem,
+    item: RawListItem,
     number: Int,
     markerStyle: BlockStyle<ListMarkerConfiguration>,
     markerWidth: CGFloat?
@@ -21,8 +22,17 @@ struct ListItemView: View {
   }
 
   var body: some View {
+    self.listItem.makeBody(
+      configuration: .init(
+        label: .init(self.label),
+        content: .init(blocks: item.children)
+      )
+    )
+  }
+
+  private var label: some View {
     Label {
-      BlockSequence(self.item.blocks)
+      BlockSequence(self.item.children)
     } icon: {
       self.markerStyle
         .makeBody(configuration: .init(listLevel: self.listLevel, itemNumber: self.number))

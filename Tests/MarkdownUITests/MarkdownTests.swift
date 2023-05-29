@@ -166,8 +166,9 @@
       }
       .border(Color.accentColor)
       .padding()
-      .markdownBlockStyle(\.paragraph) { label in
-        label.markdownMargin(bottom: .zero)
+      .markdownBlockStyle(\.paragraph) { configuration in
+        configuration.label
+          .markdownMargin(bottom: .zero)
       }
 
       assertSnapshot(matching: view, as: .image(layout: layout))
@@ -240,6 +241,10 @@
         Visit https://github.com.
 
         Use `git status` to list all new or modified files that haven't yet been committed.
+
+        You can insert a line break<br>
+        using the HTML `<br>`
+        <br>      tag.
         """#
       }
       .border(Color.accentColor)

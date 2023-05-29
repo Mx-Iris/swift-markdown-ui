@@ -19,70 +19,71 @@ extension Theme {
       FontFamilyVariant(.monospaced)
       FontSize(.em(0.94))
     }
-    .heading1 { label in
-      label
+    .heading1 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(2))
         }
     }
-    .heading2 { label in
-      label
+    .heading2 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(1.5))
         }
     }
-    .heading3 { label in
-      label
+    .heading3 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(1.17))
         }
     }
-    .heading4 { label in
-      label
+    .heading4 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(1))
         }
     }
-    .heading5 { label in
-      label
+    .heading5 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(0.83))
         }
     }
-    .heading6 { label in
-      label
+    .heading6 { configuration in
+      configuration.label
         .markdownMargin(top: .rem(1.5), bottom: .rem(1))
         .markdownTextStyle {
           FontWeight(.semibold)
           FontSize(.em(0.67))
         }
     }
-    .paragraph { label in
-      label
+    .paragraph { configuration in
+      configuration.label
+        .fixedSize(horizontal: false, vertical: true)
         .relativeLineSpacing(.em(0.15))
         .markdownMargin(top: .zero, bottom: .em(1))
     }
-    .blockquote { label in
-      label
+    .blockquote { configuration in
+      configuration.label
         .markdownTextStyle {
           FontStyle(.italic)
         }
         .relativePadding(.leading, length: .em(2))
         .relativePadding(.trailing, length: .em(1))
     }
-    .codeBlock { label in
+    .codeBlock { configuration in
       ScrollView(.horizontal) {
-        label
+        configuration.label
           .relativeLineSpacing(.em(0.15))
           .relativePadding(.leading, length: .rem(1))
           .markdownTextStyle {
@@ -92,8 +93,10 @@ extension Theme {
       }
       .markdownMargin(top: .zero, bottom: .em(1))
     }
-    .table { label in
-      label.markdownMargin(top: .zero, bottom: .em(1))
+    .table { configuration in
+      configuration.label
+        .fixedSize(horizontal: false, vertical: true)
+        .markdownMargin(top: .zero, bottom: .em(1))
     }
     .tableCell { configuration in
       configuration.label
@@ -102,6 +105,7 @@ extension Theme {
             FontWeight(.semibold)
           }
         }
+        .fixedSize(horizontal: false, vertical: true)
         .relativeLineSpacing(.em(0.15))
         .relativePadding(.horizontal, length: .em(0.72))
         .relativePadding(.vertical, length: .em(0.35))

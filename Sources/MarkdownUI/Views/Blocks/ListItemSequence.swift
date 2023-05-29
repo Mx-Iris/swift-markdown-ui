@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct ListItemSequence: View {
-  private let items: [ListItem]
+  private let items: [RawListItem]
   private let start: Int
   private let markerStyle: BlockStyle<ListMarkerConfiguration>
   private let markerWidth: CGFloat?
 
   init(
-    items: [ListItem],
+    items: [RawListItem],
     start: Int = 1,
     markerStyle: BlockStyle<ListMarkerConfiguration>,
     markerWidth: CGFloat? = nil
@@ -20,14 +20,11 @@ struct ListItemSequence: View {
 
   var body: some View {
     BlockSequence(self.items) { index, item in
-      ApplyBlockStyle(
-        \.listItem,
-        to: ListItemView(
-          item: item,
-          number: self.start + index,
-          markerStyle: self.markerStyle,
-          markerWidth: self.markerWidth
-        )
+      ListItemView(
+        item: item,
+        number: self.start + index,
+        markerStyle: self.markerStyle,
+        markerWidth: self.markerWidth
       )
     }
     .labelStyle(.titleAndIcon)

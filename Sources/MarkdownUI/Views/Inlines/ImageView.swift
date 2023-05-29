@@ -1,42 +1,59 @@
 import SwiftUI
 
 struct ImageView: View {
+  @Environment(\.theme.image) private var image
   @Environment(\.imageProvider) private var imageProvider
   @Environment(\.imageBaseURL) private var baseURL
 
-  private let source: String?
-  private let alt: String
-  private let destination: String?
+  private let data: RawImageData
 
-  init(source: String?, alt: String, destination: String? = nil) {
-    self.source = source
-    self.alt = alt
-    self.destination = destination
+  init(data: RawImageData) {
+    self.data = data
   }
 
   var body: some View {
-    ApplyBlockStyle(
-      \.image,
-      to: self.imageProvider.makeImage(url: self.url)
-        .link(destination: self.destination)
+    self.image.makeBody(
+      configuration: .init(
+        label: .init(self.label),
+        content: .init(block: self.content)
+      )
     )
-    .accessibilityLabel(self.alt)
+  }
+
+  private var label: some View {
+    self.imageProvider.makeImage(url: self.url)
+      .link(destination: self.data.destination)
+      .accessibilityLabel(self.data.alt)
+  }
+
+  private var content: BlockNode {
+    if let destination = self.data.destination {
+      return .paragraph(
+        content: [
+          .link(
+            destination: destination,
+            children: [.image(source: self.data.source, children: [.text(self.data.alt)])]
+          )
+        ]
+      )
+    } else {
+      return .paragraph(
+        content: [.image(source: self.data.source, children: [.text(self.data.alt)])]
+      )
+    }
   }
 
   private var url: URL? {
-    self.source.flatMap {
-      URL(string: $0, relativeTo: self.baseURL)
-    }
+    URL(string: self.data.source, relativeTo: self.baseURL)
   }
 }
 
 extension ImageView {
-  init?(_ inlines: [Inline]) {
-    guard inlines.count == 1, let inline = inlines.first, let image = inline.image else {
+  init?(_ inlines: [InlineNode]) {
+    guard inlines.count == 1, let data = inlines.first?.imageData else {
       return nil
     }
-
-    self.init(source: image.source, alt: image.alt, destination: image.destination)
+    self.init(data: data)
   }
 }
 
@@ -52,8 +69,14 @@ private struct LinkModifier: ViewModifier {
 
   let destination: String?
 
+  var url: URL? {
+    self.destination.flatMap {
+      URL(string: $0, relativeTo: self.baseURL)
+    }
+  }
+
   func body(content: Content) -> some View {
-    if let url = self.destination.flatMap({ URL(string: $0, relativeTo: self.baseURL) }) {
+    if let url {
       Button {
         self.openURL(url)
       } label: {
